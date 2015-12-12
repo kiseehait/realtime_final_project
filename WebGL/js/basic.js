@@ -3,6 +3,8 @@ var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeig
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.shadowMapEnabled = true;
+renderer.shadowMapType = THREE.PCFSoftShadowMap;
 document.body.appendChild( renderer.domElement );
 
 var mytexture = THREE.ImageUtils.loadTexture( "./textures/box.jpg" );
@@ -22,15 +24,18 @@ var uniforms = {
 	texture: { type: "t", value: mytexture}
 };
 
-var geometry = readObjectFromFile('cube.obj');;
+var geometry = readObjectFromFile('cube.obj');
 var material = new THREE.ShaderMaterial( {
 	uniforms: uniforms,
 	vertexShader: document.getElementById( 'vertexShader' ).textContent,
 	fragmentShader: document.getElementById( 'fragmentShader' ).textContent
 } );
 var object = new THREE.Mesh( geometry, material );
+var city = new THREE.Mesh( readObjectFromFile('city.obj'), material );
 
 scene.add( object );
+scene.add( city );
+city.position.y = -45;
 object.position.y = 0;
 camera.position.z = 5;
 
