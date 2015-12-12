@@ -87,6 +87,54 @@ object3.receiveShadow = true;
 
 scene.add( object3 );
 
+
+/*
+
+// Shadow Map Test (Still not have shadow)
+
+// LIGHTS
+
+var ambient = new THREE.AmbientLight( 0x444444 );
+scene.add( ambient );
+
+light = new THREE.SpotLight( 0xffffff, 1, 0, Math.PI / 2, 1 );
+light.position.set( 0, 1500, 1000 );
+light.target.position.set( 0, 0, 0 );
+
+light.castShadow = true;
+
+light.shadowCameraNear = 1200;
+light.shadowCameraFar = 2500;
+light.shadowCameraFov = 50;
+
+//light.shadowCameraVisible = true;
+
+light.shadowBias = 0.0001;
+
+light.shadowMapWidth = 2048;
+light.shadowMapHeight = 2048;
+
+scene.add( light );
+
+
+// GROUND
+
+var geometry4 = new THREE.PlaneBufferGeometry( 100, 100 );
+var planeMaterial4 = new THREE.MeshPhongMaterial( { color: 0xffdd99 } );
+
+var ground = new THREE.Mesh( geometry4, planeMaterial4 );
+
+ground.position.set( 0, -2, 0 );
+ground.rotation.x = - Math.PI / 2;
+ground.scale.set( 100, 100, 100 );
+
+ground.castShadow = false;
+ground.receiveShadow = true;
+
+scene.add( ground );
+
+*/
+
 // Camera Reposition
 camera.position.z = 5;
 
