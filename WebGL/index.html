@@ -11,15 +11,6 @@
 	<body>
 		<script src="lib/three.min.js"></script>
 		<script id="vertexShader" type="x-shader/x-vertex">
-			varying vec3 n;
-			void main() {
-				n = normalMatrix * normal;
-				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-				gl_Position = projectionMatrix * mvPosition;
-
-			}
-		</script>
-		<script id="fragmentShader" type="x-shader/x-fragment">
 			/*
 			// = object.matrixWorld
 			uniform mat4 modelMatrix;
@@ -44,18 +35,31 @@
 			attribute vec3 normal;
 			attribute vec2 uv;
 			attribute vec2 uv2;
-			*/
+			*/	
+			varying vec3 n;
+			varying vec2 vUv;
+			void main() {
+				vUv = uv;
+				n = normalMatrix * normal;
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+				gl_Position = projectionMatrix * mvPosition;
+			}
+		</script>
+		<script id="fragmentShader" type="x-shader/x-fragment">
 			uniform float s;
 			uniform vec3 Ka;
 			uniform vec3 Kd;
 			uniform vec3 Ks;
 			uniform vec3 lightCol;
 			uniform vec3 lightPos;
+			uniform sampler2D texture;
 			varying vec3 n;
+			varying vec2 vUv;
 			void main() {
+				vec3 RGB = texture2D( texture, vUv ).rgb;
 				vec3 r = normalize((2.0 * n * dot(lightPos,n)) - lightPos);
-				vec3 amb = vec3(Ka.r*lightCol.r,Ka.g*lightCol.g,Ka.b*lightCol.b);
-				vec3 dif = vec3(Kd.r*lightCol.r,Kd.g*lightCol.g,Kd.b*lightCol.b) * clamp(dot(normalize(lightPos),n),0.0,1.0);
+				vec3 amb = vec3(Ka.r*lightCol.r*RGB.r,Ka.g*lightCol.g*RGB.g,Ka.b*lightCol.b*RGB.b);
+				vec3 dif = vec3(Kd.r*lightCol.r*RGB.r,Kd.g*lightCol.g*RGB.g,Kd.b*lightCol.b*RGB.b) * clamp(dot(normalize(lightPos),n),0.0,1.0);
 				vec3 spc = vec3(Ks.r*lightCol.r,Ks.g*lightCol.g,Ks.b*lightCol.b) * pow(dot(r,n),s);
 				gl_FragColor = vec4(amb + dif + spc,1.0);
 			}
