@@ -1,5 +1,5 @@
 var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 10000 );
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -7,6 +7,7 @@ document.body.appendChild( renderer.domElement );
 
 var mytexture = THREE.ImageUtils.loadTexture( "./textures/box.jpg" );
 var mytexture2 = THREE.ImageUtils.loadTexture( "./textures/grass.jpg" );
+var mytexture3 = THREE.ImageUtils.loadTexture( "./textures/sky.jpg" );
 /*
 mytexture.wrapS = THREE.RepeatWrapping;
 mytexture.wrapT = THREE.RepeatWrapping;
@@ -32,6 +33,17 @@ var uniforms2 = {
 	Ks: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
 	s: { type: "f", value: 100 },
 	texture: { type: "t", value: mytexture2}
+};
+
+var uniforms3 = {
+	fogDensity: { type: "f", value: 0.45 },
+	lightPos: { type: "v3", value: new THREE.Vector3( 0, 100, 200 ) },
+	lightCol: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
+	Ka: { type: "v3", value: new THREE.Vector3( 0.1, 0.1, 0.1 ) },
+	Kd: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
+	Ks: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
+	s: { type: "f", value: 100 },
+	texture: { type: "t", value: mytexture3}
 };
 
 // Cube
@@ -60,6 +72,20 @@ object2.receiveShadow = true;
 
 scene.add( object2 );
 object2.position.y = -102;
+
+// Sky
+var geometry3 = readObjectFromFile('sky.obj');;
+var material3 = new THREE.ShaderMaterial( {
+	uniforms: uniforms3,
+	vertexShader: document.getElementById( 'vertexShader' ).textContent,
+	fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+} );
+var object3 = new THREE.Mesh( geometry3, material3 );
+
+object3.castShadow = false;
+object3.receiveShadow = true;
+
+scene.add( object3 );
 
 // Camera Reposition
 camera.position.z = 5;
