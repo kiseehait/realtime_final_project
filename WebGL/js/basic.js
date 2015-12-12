@@ -15,7 +15,7 @@ mytexture.repeat.set( 4, 4 );
 */
 var uniforms = {
 	fogDensity: { type: "f", value: 0.45 },
-	lightPos: { type: "v3", value: new THREE.Vector3( 0, 100, 200 ) },
+	lightPos: { type: "v3", value: new THREE.Vector3( 0, 5, 5 ) },
 	lightCol: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
 	Ka: { type: "v3", value: new THREE.Vector3( 0.1, 0.1, 0.1 ) },
 	Kd: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
@@ -26,7 +26,7 @@ var uniforms = {
 
 var uniforms2 = {
 	fogDensity: { type: "f", value: 0.45 },
-	lightPos: { type: "v3", value: new THREE.Vector3( 0, 100, 200 ) },
+	lightPos: { type: "v3", value: new THREE.Vector3( 0, 5, 5 ) },
 	lightCol: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
 	Ka: { type: "v3", value: new THREE.Vector3( 0.1, 0.1, 0.1 ) },
 	Kd: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
@@ -37,7 +37,7 @@ var uniforms2 = {
 
 var uniforms3 = {
 	fogDensity: { type: "f", value: 0.45 },
-	lightPos: { type: "v3", value: new THREE.Vector3( 0, 100, 200 ) },
+	lightPos: { type: "v3", value: new THREE.Vector3( 0, 5, 5 ) },
 	lightCol: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
 	Ka: { type: "v3", value: new THREE.Vector3( 0.1, 0.1, 0.1 ) },
 	Kd: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
@@ -74,7 +74,7 @@ scene.add( object2 );
 object2.position.y = -102;
 
 // Sky
-var geometry3 = readObjectFromFile('sky.obj');
+var geometry3 = readObjectFromFile('sky2.obj');
 var material3 = new THREE.ShaderMaterial( {
 	uniforms: uniforms3,
 	vertexShader: document.getElementById( 'vertexShader' ).textContent,
