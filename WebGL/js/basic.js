@@ -74,7 +74,7 @@ scene.add( object2 );
 object2.position.y = -102;
 
 // Sky
-var geometry3 = readObjectFromFile('sky.obj');;
+var geometry3 = readObjectFromFile('sky.obj');
 var material3 = new THREE.ShaderMaterial( {
 	uniforms: uniforms3,
 	vertexShader: document.getElementById( 'vertexShader' ).textContent,
