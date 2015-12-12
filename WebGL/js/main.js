@@ -4,15 +4,8 @@ var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 camera.position.z = 5;
 
-var light = {
-		fogDensity: { type: "f", value: 0.45 },
-		lightPos: { type: "v3", value: new THREE.Vector3( 0, 100, 200 ) },
-		lightCol: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
-		Ka: { type: "v3", value: new THREE.Vector3( 0.1, 0.1, 0.1 ) },
-		Kd: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
-		Ks: { type: "v3", value: new THREE.Vector3( 1, 1, 1 ) },
-		s: { type: "f", value: 100 }
-}
+var light = new Light();
+light.setColor(1.0,1.0,1.0);
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -22,7 +15,7 @@ var cube = new MeshObject("cube");
 cube.loadTexture("box.jpg");
 cube.loadObject(
 	"cube.obj",
-	light, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
+	light.getUniforms(), _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
 );
 scene.add(cube.mesh);
 

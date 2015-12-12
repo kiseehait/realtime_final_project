@@ -1,5 +1,9 @@
 var MeshObject = function(objectName) {
 	this.objectName = objectName;
+	this.Ka = new THREE.Vector3( 0.1, 0.1, 0.1 );
+	this.Kd = new THREE.Vector3( 1, 1, 1 );
+	this.Ks = new THREE.Vector3( 1, 1, 1 );
+	this.s = 100;
 	this.uniforms = {};
 };
 
@@ -25,6 +29,22 @@ MeshObject.prototype.setUniforms = function(uniforms) {
 };
 MeshObject.prototype.addToUniforms = function(moreUniforms) {
 	this.uniforms = $.extend({}, this.uniforms, moreUniforms);
+};
+
+MeshObject.prototype.setAmbient = function(r, g, b ) {
+	this.Ks.set(r, g, b );
+};
+
+MeshObject.prototype.setDiffuse = function(r, g, b ) {
+	this.Ks.set(r, g, b );
+};
+
+MeshObject.prototype.setSpecular = function(r, g, b ) {
+	this.Ks.set(r, g, b );
+};
+
+MeshObject.prototype.setSpecularPower = function(s ) {
+	this.s = s;
 };
 
 // Vertex Shader
@@ -55,6 +75,14 @@ MeshObject.prototype.makeMesh = function() {
 	this.mesh = new THREE.Mesh(this.meshGeometry,this.material);
 };
 MeshObject.prototype.make = function() {
+	this.addToUniforms(
+	{
+		Ka: { type: "v3", value: this.Ka },
+		Kd: { type: "v3", value: this.Kd },
+		Ks: { type: "v3", value: this.Ks },
+		s: { type: "f", value: this.s }
+	}
+	);
 	this.makeMaterial();
 	this.makeMesh();
 };
