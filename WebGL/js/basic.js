@@ -36,6 +36,7 @@ camera.position.z = 5;
 
 var render = function () {
 	requestAnimationFrame( render );
+	updateCamera();
 	object.rotation.y += 0.01;
 	object.rotation.x += 0.01;
 	renderer.render(scene, camera);
