@@ -22,6 +22,7 @@ var uniforms = {
 	texture: { type: "t", value: mytexture}
 };
 
+// Cube
 var geometry = readObjectFromFile('cube.obj');;
 var material = new THREE.ShaderMaterial( {
 	uniforms: uniforms,
@@ -32,6 +33,23 @@ var object = new THREE.Mesh( geometry, material );
 
 scene.add( object );
 object.position.y = 0;
+
+// Ground
+var geometry2 = readObjectFromFile('cube2.obj');;
+var material2 = new THREE.ShaderMaterial( {
+	uniforms: uniforms,
+	vertexShader: document.getElementById( 'vertexShader' ).textContent,
+	fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+} );
+var object2 = new THREE.Mesh( geometry2, material2 );
+
+object2.castShadow = false;
+object2.receiveShadow = true;
+
+scene.add( object2 );
+object2.position.y = -1000002;
+
+// Camera Reposition
 camera.position.z = 5;
 
 var render = function () {
