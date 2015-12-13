@@ -148,6 +148,7 @@ function updateCamera() {
 				lightCol = 0.1 + lightGap/maxLightGap*0.4;
 				light.setColor(2*lightCol,lightCol,lightCol);
 			}
+			sky.setSpecular(1,1,1);
 		} else {
 			if (light.lightPos.y >= 0) {
 				light.setColor(1,1,1);
