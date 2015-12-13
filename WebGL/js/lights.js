@@ -1,6 +1,6 @@
 var Light = function() {
 	this.fogDensity = 0.45;
-	this.lightPos = new THREE.Vector3( 0, 100, 200 );
+	this.lightPos = new THREE.Vector3( 0, 200, 200 );
 	this.lightCol = new THREE.Vector3( 1, 0.5, 1 );
 	this.uniforms = {};
 };

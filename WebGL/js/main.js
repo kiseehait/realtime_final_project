@@ -47,6 +47,9 @@ sky.loadObject(
 	light.getUniforms(), _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
 );
 sky.setSpecular(1,1,1);
+sky.mesh.position.x = 382;
+sky.mesh.position.y = 300;
+sky.mesh.position.z = 182;
 scene.add(sky.mesh);
 
 var render = function () {
@@ -56,6 +59,11 @@ var render = function () {
 	cube1.mesh.rotation.x += 0.01;
 	cube2.mesh.rotation.y += 0.01;
 	cube2.mesh.rotation.x -= 0.01;
+
+	sunAngle += sunSpeed*sunDAngle;
+	if (sunAngle > 2*Math.PI) sunAngle = 0;
+	else if (sunAngle < 0) sunAngle = 2*Math.PI;
+
 	renderer.render(scene, camera);
 };
 
