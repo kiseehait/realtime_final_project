@@ -60,6 +60,20 @@ cube2.mesh.castShadow = true;
 cube2.mesh.receiveShadow = true;
 scene.add(cube2.mesh);
 
+// Tree Test
+var tree1 = new MeshObject("tree1");
+tree1.loadTexture("box.jpg");
+tree1.loadObject(
+	"tree.obj",
+	light.getUniforms(), _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
+);
+tree1.mesh.position.y = 0;
+tree1.mesh.position.x = 5;
+tree1.mesh.position.z = -10;
+tree1.mesh.castShadow = true;
+tree1.mesh.receiveShadow = true;
+scene.add(tree1.mesh);
+
 /*
 var ground = new MeshObject("ground");
 ground.loadTexture("grass.jpg");
