@@ -47,15 +47,18 @@ var uniforms3 = {
 };
 
 // Cube
-var geometry = readObjectFromFile('cube.obj');;
+var geometry = readObjectFromFile('cube.obj');
 var material = new THREE.ShaderMaterial( {
 	uniforms: uniforms,
 	vertexShader: document.getElementById( 'vertexShader' ).textContent,
 	fragmentShader: document.getElementById( 'fragmentShader' ).textContent
 } );
 var object = new THREE.Mesh( geometry, material );
+var city = new THREE.Mesh( readObjectFromFile('city.obj'), material );
 
 scene.add( object );
+scene.add( city );
+city.position.y = -45;
 object.position.y = 0;
 
 // Ground
