@@ -13,7 +13,7 @@ var verticalAngle = 0,horizontalAngle = Math.PI;
 
 var cursorX,cursorY,newCursorX,newCursorY;
 var cursorDrag = false;
-var position = new THREE.Vector3();
+var position = new THREE.Vector3(0, 1.5, 0);
 var direction = new THREE.Vector3( Math.cos(verticalAngle) * Math.sin(horizontalAngle), Math.sin(verticalAngle), Math.cos(verticalAngle) * Math.cos(horizontalAngle) );
 var right = new THREE.Vector3( Math.sin(horizontalAngle - Math.PI/2), 0, Math.cos(horizontalAngle - Math.PI/2) );
 var up = new THREE.Vector3();
