@@ -1,12 +1,16 @@
 // Constructor
 var MeshObject = function(objectName) {
 	this.objectName = objectName;
+	this.meshGeometry;
 	this.Ka = new THREE.Vector3( 0.1, 0.1, 0.1 );
 	this.Kd = new THREE.Vector3( 1, 1, 1 );
 	this.Ks = new THREE.Vector3( 1, 1, 1 );
 	this.s = 100;
 	this.light = new Light();
 	this.uniforms = {};
+	this.vertexShader;
+	this.fragmentShader;
+	this.material;
 };
 
 // Object Loader

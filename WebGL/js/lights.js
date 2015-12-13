@@ -16,10 +16,31 @@ Light.prototype.getUniforms = function() {
 	);
 };
 
+// Getter
+Light.prototype.getR = function() {
+	return this.lightCol.x;
+};
+Light.prototype.getG = function() {
+	return this.lightCol.y;
+};
+Light.prototype.getB = function() {
+	return this.lightCol.z;
+};
+
 // Setter
 Light.prototype.setColor = function(r, g, b ) {
 	this.lightCol.set(r, g, b );
 };
+Light.prototype.setR = function(r ) {
+	this.lightCol.setX(r );
+};
+Light.prototype.setG = function(g ) {
+	this.lightCol.setY(g );
+};
+Light.prototype.setB = function(b ) {
+	this.lightCol.setZ(b );
+};
 Light.prototype.setPosition = function(x, y, z ) {
 	this.lightPos.set(x, y, z );
 };
+
