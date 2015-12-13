@@ -17,7 +17,7 @@ var verticalAngle = 0,horizontalAngle = Math.PI;
 
 var cursorX,cursorY,newCursorX,newCursorY;
 var cursorDrag = false;
-var position = new THREE.Vector3(0, 1.5, 5);
+var position = new THREE.Vector3(0, 5, 5);
 var direction = new THREE.Vector3( Math.cos(verticalAngle) * Math.sin(horizontalAngle), Math.sin(verticalAngle), Math.cos(verticalAngle) * Math.cos(horizontalAngle) );
 var right = new THREE.Vector3( Math.sin(horizontalAngle - Math.PI/2), 0, Math.cos(horizontalAngle - Math.PI/2) );
 var up = new THREE.Vector3();
@@ -26,11 +26,14 @@ up.crossVectors(right, direction);
 var sunAngle = Math.PI/2;
 var sunStep = 360;
 var sunDAngle = 2*Math.PI/sunStep;
-var sunDayLimitL = 2*Math.PI - sunStep*sunDAngle/12;
-var sunDayLimitR = Math.PI + sunStep*sunDAngle/12;
-var sunDawn = sunDayLimitL + sunStep*sunDAngle/8;
-var sunTwilight = sunDayLimitR - sunStep*sunDAngle/8;
+var sunDayLimitL = 2*Math.PI;
+var sunDayLimitR = Math.PI;
 var sunSpeed = 0.25;
+var lightGap;
+var dawnLimit = 500*Math.cos(Math.PI/6);
+var twilightLimit = 500*Math.cos(5*Math.PI/6);
+var maxLightGap = 500 - 500*Math.cos(Math.PI/6);;
+var lightCol;
 
 var keysdown = {};
 var delta = function() {
@@ -125,49 +128,35 @@ function updateCamera() {
 	camera.position.z = position.z;
 
 	light.setPosition(0, 500*Math.sin(sunAngle), 500*Math.cos(sunAngle));
-	if (sunAngle < sunDayLimitL && sunAngle > sunDayLimitR ) {
-		light.setColor(0.1,0.1,0.1);
-		sky.setSpecular(0,0,0);
-	} else {
-		if (sunAngle > sunTwilight) {
-			red = light.getR() - 0.0;
-			green = light.getG() - 0.005;
-			blue = light.getB() - 0.005;
-			if(red < 1)
-				light.setR(1);
-			else
-				light.setR(red);
-			if(green < 0.5)
-				light.setG(0.5);
-			else
-				light.setG(green);
-			if(blue < 0.45)
-				light.setB(0.45);
-			else
-				light.setB(blue);
-			
-		} else if (sunAngle < sunDawn) {
-			red = light.getR() + 0.0;
-			green = light.getG() + 0.005;
-			blue = light.getB() + 0.005;
-			if(red > 1)
-				light.setR(1);
-			else
-				light.setR(red);
-			if(green > 1)
-				light.setG(1);
-			else
-				light.setG(green);
-			if(blue > 1)
-				light.setB(1);
-			else
-				light.setB(blue);
-			
+	
+		if (light.lightPos.z > dawnLimit) {
+			lightGap = light.lightPos.z - dawnLimit;
+			if (light.lightPos.y >= 0) {
+				lightCol = 1 - lightGap/maxLightGap*0.5;
+				light.setColor(1,lightCol,lightCol);
+			} else {
+				lightCol = lightGap/maxLightGap*0.5;
+				light.setColor(2*lightCol,lightCol,lightCol);
+			}
+		} else if (light.lightPos.z < twilightLimit) {
+			lightGap = twilightLimit - light.lightPos.z;
+			if (light.lightPos.y >= 0) {
+				lightCol = 1 - lightGap/maxLightGap*0.5;
+				light.setColor(1,lightCol,lightCol);
+			} else {
+				lightCol = lightGap/maxLightGap*0.5;
+				light.setColor(2*lightCol,lightCol,lightCol);
+			}
 		} else {
-			light.setColor(1,1,1);
+			if (light.lightPos.y >= 0) {
+				light.setColor(1,1,1);
+				sky.setSpecular(1,1,1);
+			} else {
+				light.setColor(0.1,0.1,0.1);
+				sky.setSpecular(0,0,0);
+			}
 		}
-		sky.setSpecular(1,1,1);
-	}
+	
 
 	lastTimeUpdate = Date.now();
 }
