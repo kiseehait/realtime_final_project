@@ -38,7 +38,7 @@ var cube1 = new MeshObject("cube1");
 cube1.loadTexture("box.jpg");
 cube1.loadObject(
 	"cube.obj",
-	light.getUniforms(), _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
+	light, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
 );
 cube1.mesh.position.y = 5;
 cube1.mesh.position.x = 5;
@@ -51,7 +51,7 @@ var cube2 = new MeshObject("cube2");
 cube2.loadTexture("box.jpg");
 cube2.loadObject(
 	"cube.obj",
-	light.getUniforms(), _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
+	light, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
 );
 cube2.mesh.position.y = 5;
 cube2.mesh.position.x = -5;
@@ -65,7 +65,7 @@ var tree1 = new MeshObject("tree1");
 tree1.loadTexture("box.jpg");
 tree1.loadObject(
 	"tree.obj",
-	light.getUniforms(), _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
+	light, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
 );
 tree1.mesh.position.y = 0;
 tree1.mesh.position.x = 5;
@@ -79,7 +79,7 @@ var ground = new MeshObject("ground");
 ground.loadTexture("grass.jpg");
 ground.loadObject(
 	"cube2.obj",
-	light.getUniforms(), _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
+	light, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
 );
 ground.mesh.position.y = -102;
 ground.setSpecular(0,0,0);
@@ -91,7 +91,7 @@ var sky = new MeshObject("sky");
 sky.loadTexture("sky.jpg");
 sky.loadObject(
 	"sky2.obj",
-	light.getUniforms(), _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
+	light, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
 );
 sky.setSpecular(1,1,1);
 sky.mesh.position.x = 382;
