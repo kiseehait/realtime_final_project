@@ -138,6 +138,7 @@ function updateCamera() {
 				lightCol = lightGap/maxLightGap*0.5;
 				light.setColor(2*lightCol,lightCol,lightCol);
 			}
+			sky.setSpecular(1,1,1);
 		} else if (light.lightPos.z < twilightLimit) {
 			lightGap = twilightLimit - light.lightPos.z;
 			if (light.lightPos.y >= 0) {
@@ -147,6 +148,7 @@ function updateCamera() {
 				lightCol = lightGap/maxLightGap*0.5;
 				light.setColor(2*lightCol,lightCol,lightCol);
 			}
+			sky.setSpecular(1,1,1);
 		} else {
 			if (light.lightPos.y >= 0) {
 				light.setColor(1,1,1);
