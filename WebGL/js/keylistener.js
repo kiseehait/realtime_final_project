@@ -28,8 +28,8 @@ var sunStep = 360;
 var sunDAngle = 2*Math.PI/sunStep;
 var sunDayLimitL = 2*Math.PI - sunStep*sunDAngle/12;
 var sunDayLimitR = Math.PI + sunStep*sunDAngle/12;
-var sunDawn = sunDayLimitL + sunStep*sunDAngle/9;
-var sunTwilight = sunDayLimitR - sunStep*sunDAngle/9;
+var sunDawn = sunDayLimitL + sunStep*sunDAngle/8;
+var sunTwilight = sunDayLimitR - sunStep*sunDAngle/8;
 var sunSpeed = 0.25;
 
 var keysdown = {};
@@ -129,8 +129,40 @@ function updateCamera() {
 		light.setColor(0.1,0.1,0.1);
 		sky.setSpecular(0,0,0);
 	} else {
-		if (sunAngle < sunDawn && sunAngle > sunTwilight) {
-			light.setColor(1,0.5,0.45);
+		if (sunAngle > sunTwilight) {
+			red = light.getR() - 0.0;
+			green = light.getG() - 0.005;
+			blue = light.getB() - 0.005;
+			if(red < 1)
+				light.setR(1);
+			else
+				light.setR(red);
+			if(green < 0.5)
+				light.setG(0.5);
+			else
+				light.setG(green);
+			if(blue < 0.45)
+				light.setB(0.45);
+			else
+				light.setB(blue);
+			
+		} else if (sunAngle < sunDawn) {
+			red = light.getR() + 0.0;
+			green = light.getG() + 0.005;
+			blue = light.getB() + 0.005;
+			if(red > 1)
+				light.setR(1);
+			else
+				light.setR(red);
+			if(green > 1)
+				light.setG(1);
+			else
+				light.setG(green);
+			if(blue > 1)
+				light.setB(1);
+			else
+				light.setB(blue);
+			
 		} else {
 			light.setColor(1,1,1);
 		}
