@@ -35,8 +35,6 @@ var light2 = new THREE.DirectionalLight( 0xffffff, 2 );
 	});
 
 // Cube
-var cubes = [];
-
 var cube1 = new MeshObject("cube1");
 cube1.loadTexture("box.jpg");
 cube1.loadObject(
@@ -50,8 +48,6 @@ cube1.mesh.castShadow = true;
 cube1.mesh.receiveShadow = true;
 scene.add(cube1.mesh);
 
-cubes.push(new THREE.Vector2(cube1, new THREE.Vector3(0.01, 0.01, 0)));
-
 var cube2 = new MeshObject("cube2");
 cube2.loadTexture("box.jpg");
 cube2.loadObject(
@@ -64,8 +60,6 @@ cube2.mesh.position.z = -5;
 cube2.mesh.castShadow = true;
 cube2.mesh.receiveShadow = true;
 scene.add(cube2.mesh);
-
-cubes.push(new THREE.Vector2(cube2, new THREE.Vector3(0.01, -0.01, 0)));
 
 // Tree Test
 var tree1 = new MeshObject("tree1");
@@ -136,32 +130,14 @@ shadowRenderFunction.push(function(){
 	renderer.render( scene, camera );		
 })
 
-var addCube = function(n, x, y, z, dx, dy, dz) {
-	var cube = new MeshObject("cube" + n);
-	cube.loadTexture("box.jpg");
-	cube.loadObject(
-		"cube.obj",
-		light, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
-	);
-	cube.mesh.position.y = y;
-	cube.mesh.position.x = x;
-	cube.mesh.position.z = z;
-	cube.mesh.castShadow = true;
-	cube.mesh.receiveShadow = true;
-	scene.add(cube.mesh);
-
-	cubes.push(new THREE.Vector2(cube, new THREE.Vector3(dx, dy, dz)));
-};
 
 var render = function () {
 	requestAnimationFrame( render );
 	updateCamera();
-
-	cubes.forEach(function(cube) {
-		cube.x.mesh.rotation.y += cube.y.y;
-		cube.x.mesh.rotation.x += cube.y.x;
-		cube.x.mesh.rotation.z += cube.y.z;
-	});
+	cube1.mesh.rotation.y += 0.01;
+	cube1.mesh.rotation.x += 0.01;
+	cube2.mesh.rotation.y += 0.01;
+	cube2.mesh.rotation.x -= 0.01;
 	
 	sunAngle += sunSpeed*sunDAngle;
 	if (sunAngle > 2*Math.PI) sunAngle = 0;
@@ -172,7 +148,7 @@ var render = function () {
 
 	renderer.render(scene, camera);
 
-	shadowRenderFunction.forEach(function(func) {
+	shadowRenderFunction.forEach(function(func){
 		func(1, 1);
 	});
 };
