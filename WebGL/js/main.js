@@ -1,6 +1,7 @@
 var _VERTEX_SHADER = document.getElementById( 'vertexShader' ).textContent;
 var _FRAGMENT_SHADER = document.getElementById( 'fragmentShader' ).textContent;
 var _TEXTURE_FRAGMENT_SHADER = document.getElementById( 'textureFragmentShader' ).textContent;
+var _PURE_TEXTURE_FRAGMENT_SHADER = document.getElementById( 'pureTextureFragmentShader' ).textContent;
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 10000 );
 
@@ -116,7 +117,6 @@ var material = new THREE.MeshPhongMaterial({
 	shading	: THREE.SmoothShading,
 	map	: texture
 });
-geometry.computeVertexNormals();
 var ground = new THREE.Mesh( geometry, material );
 ground.scale.multiplyScalar(3);
 ground.position.y = -1;
@@ -128,7 +128,38 @@ ground.receiveShadow = true;
 // Push to render function
 shadowRenderFunction.push(function(){
 	renderer.render( scene, camera );		
-})
+});
+
+var Plane = new MeshObject("cloud");
+var planeTexture = new RawTexture("cloud");
+planeTexture.newSize(64);
+for(var i=0;i<64;i++) {
+	for(var j=0;j<64;j++) {
+		if(i < 32 && j < 32) { // Must be Top-Left
+			planeTexture.setRGB(i,j,1,0,0);
+		}
+		else if(i < 32) { // Must be Top-Right
+			planeTexture.setRGB(i,j,0,1,0);
+		}
+		else if(j < 32) { // Must be Bottom-Left
+			planeTexture.setRGB(i,j,0,0,1);
+		}
+		else { // Must be Bottom-Right
+			if(i + j < 96)
+				planeTexture.setRGB(i,j,0,0,0);
+			else
+				planeTexture.setRGB(i,j,1,1,1);
+		}
+	}
+}
+Plane.setTexture(planeTexture.getTexture());
+Plane.loadTHREEObject(
+	new THREE.PlaneGeometry(50,50,10,10),
+	light, _VERTEX_SHADER, _PURE_TEXTURE_FRAGMENT_SHADER
+);
+Plane.mesh.position.y = 50;
+Plane.mesh.rotation.x = Math.PI/2;
+scene.add(Plane.mesh);
 
 
 var render = function () {

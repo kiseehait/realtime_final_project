@@ -13,13 +13,33 @@ var MeshObject = function(objectName) {
 	this.material;
 };
 
+// Default THREE Object Loader
+MeshObject.prototype.loadTHREEObject = function(geometry,light,vertexShader,fragmentShader) {
+	this.meshGeometry = geometry;
+	this.setLight(light);
+	this.setVertexShader(vertexShader);
+	this.setfragmentShader(fragmentShader);
+	this.make();
+};
+
+// Geometry
+MeshObject.prototype.setGeometry = function(geometry) {
+	this.meshGeometry = geometry;
+};
+
+// Material
+MeshObject.prototype.setMaterial = function(material) {
+	this.matrial = material;
+};
+
 // Object Loader
 MeshObject.prototype.loadObject = function(fileObjName) {
 	this.meshGeometry = readObjectFromFile(fileObjName);
 };
 MeshObject.prototype.loadObject = function(fileObjName,material) {
 	this.meshGeometry = readObjectFromFile(fileObjName);
-	this.material = new THREE.ShaderMaterial(material);
+	this.material = material;
+	this.make();
 };
 MeshObject.prototype.loadObject = function(fileObjName,light,vertexShader,fragmentShader) {
 	this.meshGeometry = readObjectFromFile(fileObjName);
@@ -32,6 +52,9 @@ MeshObject.prototype.loadObject = function(fileObjName,light,vertexShader,fragme
 // Texture Loader
 MeshObject.prototype.loadTexture = function(fileTextureName) {
 	this.texture = THREE.ImageUtils.loadTexture( "./textures/" + fileTextureName );	
+};
+MeshObject.prototype.setTexture = function(texture) {
+	this.texture = texture;	
 };
 
 // Uniforms
@@ -71,7 +94,6 @@ MeshObject.prototype.setfragmentShader = function(fragmentShader) {
 MeshObject.prototype.makeUniforms = function() {
 	this.setUniforms(
 	{
-		texture: { type: "t", value: this.texture },
 		Ka: { type: "v3", value: this.Ka },
 		Kd: { type: "v3", value: this.Kd },
 		Ks: { type: "v3", value: this.Ks },
@@ -81,6 +103,9 @@ MeshObject.prototype.makeUniforms = function() {
 		lightCol: { type: "v3", value: this.light.lightCol }
 	}
 	);
+	if(this.texture) {
+		this.addToUniforms({texture: { type: "t", value: this.texture }});
+	}
 };
 MeshObject.prototype.makeMaterial = function() {
 	this.material = new THREE.ShaderMaterial( {
@@ -88,6 +113,8 @@ MeshObject.prototype.makeMaterial = function() {
 		vertexShader : this.vertexShader,
 		fragmentShader : this.fragmentShader
 	});
+	this.material.transparent = true;
+	this.material.side = THREE.DoubleSide;
 };
 MeshObject.prototype.makeMesh = function() {
 	this.mesh = new THREE.Mesh(this.meshGeometry,this.material);

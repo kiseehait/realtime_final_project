@@ -29,7 +29,7 @@ var sunStep = 360;
 var sunDAngle = 2*Math.PI/sunStep;
 var sunDayLimitL = 2*Math.PI;
 var sunDayLimitR = Math.PI;
-var sunSpeed = 0.25;
+var sunSpeed = 0;
 var lightGap;
 var dawnLimit = 500*Math.cos(Math.PI/6);
 var twilightLimit = 500*Math.cos(5*Math.PI/6);
@@ -120,7 +120,7 @@ function updateCamera() {
 				break;
 			case _SUN_SPEED_DOWN:
 				sunSpeed -= 0.1;
-				if (sunSpeed < 0.05) sunSpeed = 0.05;
+				if (sunSpeed < 0) sunSpeed = 0;
 				break;
 		}
 	}
