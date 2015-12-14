@@ -1,5 +1,6 @@
 var _VERTEX_SHADER = document.getElementById( 'vertexShader' ).textContent;
-var _TEXTURE_FRAGMENT_SHADER = document.getElementById( 'fragmentShader' ).textContent;
+var _FRAGMENT_SHADER = document.getElementById( 'fragmentShader' ).textContent;
+var _TEXTURE_FRAGMENT_SHADER = document.getElementById( 'textureFragmentShader' ).textContent;
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 10000 );
 
@@ -51,7 +52,7 @@ var cube2 = new MeshObject("cube2");
 cube2.loadTexture("box.jpg");
 cube2.loadObject(
 	"cube.obj",
-	light, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
+	light, _VERTEX_SHADER, _FRAGMENT_SHADER
 );
 cube2.mesh.position.y = 5;
 cube2.mesh.position.x = -5;
@@ -72,6 +73,7 @@ tree1.mesh.position.x = 5;
 tree1.mesh.position.z = -10;
 tree1.mesh.castShadow = true;
 tree1.mesh.receiveShadow = true;
+tree1.mesh.geometry.computeVertexNormals();
 scene.add(tree1.mesh);
 
 /*
@@ -97,6 +99,7 @@ sky.setSpecular(1,1,1);
 sky.mesh.position.x = 382;
 sky.mesh.position.y = 300;
 sky.mesh.position.z = 182;
+sky.mesh.geometry.computeVertexNormals();
 scene.add(sky.mesh);
 
 // New Ground
@@ -113,6 +116,7 @@ var material = new THREE.MeshPhongMaterial({
 	shading	: THREE.SmoothShading,
 	map	: texture
 });
+geometry.computeVertexNormals();
 var ground = new THREE.Mesh( geometry, material );
 ground.scale.multiplyScalar(3);
 ground.position.y = -1;
