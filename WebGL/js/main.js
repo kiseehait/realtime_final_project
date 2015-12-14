@@ -143,6 +143,8 @@ var render = function () {
 	if (sunAngle > 2*Math.PI) sunAngle = 0;
 	else if (sunAngle < 0) sunAngle = 2*Math.PI;
 
+	document.getElementById("footer-text").innerHTML = "Sun Position: (" + light.lightPos.x.toFixed(2) + "," + light.lightPos.y.toFixed(2) + "," + light.lightPos.z.toFixed(2) + ")";
+
 	renderer.render(scene, camera);
 
 	shadowRenderFunction.forEach(function(func){
