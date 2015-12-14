@@ -138,7 +138,7 @@ function updateCamera() {
 				var bdx = window.prompt("Rotation x: ", 0.0);
 				var bdy = window.prompt("Rotation y: ", 0.0);
 				var bdz = window.prompt("Rotation z: ", 0.0);
-				addCube(bcount,bx,by,bx,bdx,bdy,bdz);
+				addCube(bcount,bx,by,bz,bdx,bdy,bdz);
 				bcount++;
 				delete keysdown[key];
 				break;
