@@ -12,6 +12,7 @@ var _SUN_FORWARD = "88"; // X
 var _SUN_BACKWARD = "90"; // Z
 var _SUN_SPEED_UP = "86"; // V
 var _SUN_SPEED_DOWN = "67"; // C
+var _ADD_CUBE = "66"; // B
 
 var verticalAngle = 0,horizontalAngle = Math.PI;
 
@@ -34,6 +35,15 @@ var dawnLimit = 500*Math.cos(Math.PI/6);
 var twilightLimit = 500*Math.cos(5*Math.PI/6);
 var maxLightGap = 500 - 500*Math.cos(Math.PI/6);;
 var lightCol;
+
+var bProcess = false;
+var bcount = 10;
+var bx;
+var by;
+var bz;
+var bdx;
+var bdy;
+var bdz;
 
 var keysdown = {};
 var delta = function() {
@@ -121,8 +131,20 @@ function updateCamera() {
 				sunSpeed -= 0.1;
 				if (sunSpeed < 0.05) sunSpeed = 0.05;
 				break;
+			case _ADD_CUBE:
+				var bx = window.prompt("Position x: ",0.0);
+				var by = window.prompt("Position y: ",10.0);
+				var bz = window.prompt("Position z: ",-10.0);
+				var bdx = window.prompt("Rotation x: ", 0.0);
+				var bdy = window.prompt("Rotation y: ", 0.0);
+				var bdz = window.prompt("Rotation z: ", 0.0);
+				addCube(bcount,bx,by,bx,bdx,bdy,bdz);
+				bcount++;
+				delete keysdown[key];
+				break;
 		}
 	}
+
 	camera.position.x = position.x;
 	camera.position.y = position.y;
 	camera.position.z = position.z;
