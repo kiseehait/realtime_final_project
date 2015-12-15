@@ -21,17 +21,14 @@ var bgColor = 0x256FC4;
 var sunColor_g = 0xffee00;
 
 var light1;
+// End of code from http://threejs.org/examples/webgl_postprocessing_godrays.html
 
 var _VERTEX_SHADER = document.getElementById( 'vertexShader' ).textContent;
 var _FRAGMENT_SHADER = document.getElementById( 'fragmentShader' ).textContent;
 var _TEXTURE_FRAGMENT_SHADER = document.getElementById( 'textureFragmentShader' ).textContent;
 var _PURE_TEXTURE_FRAGMENT_SHADER = document.getElementById( 'pureTextureFragmentShader' ).textContent;
-// End of code from http://threejs.org/examples/webgl_postprocessing_godrays.html
-
 
 var meshObject = []; // Array Of MeshObject
-
-
 // This part is change from the original source code from http://threejs.org/examples/webgl_postprocessing_godrays.html
 init();
 
@@ -42,7 +39,7 @@ function init() {
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
 
-	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 3000 );
+	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
 	camera.position.z = 200;
 
 	scene = new THREE.Scene();
@@ -83,40 +80,6 @@ function init() {
 	mesh.rotation.x = - Math.PI / 2;
 	mesh.receiveShadow = true;
 	scene.add( mesh );
-
-
-	// Cloud :: This code has writen by ourself.
-	var Plane = new MeshObject("cloud");
-	var planeTexture = new RawTexture("cloud");
-	planeTexture.newSize(64);
-	for(var i=0;i<64;i++) {
-		for(var j=0;j<64;j++) {
-			if(i < 32 && j < 32) { // Must be Top-Left
-				planeTexture.setRGB(i,j,1,0,0);
-			}
-			else if(i < 32) { // Must be Top-Right
-				planeTexture.setRGB(i,j,0,1,0);
-			}
-			else if(j < 32) { // Must be Bottom-Left
-				planeTexture.setRGB(i,j,0,0,1);
-			}
-			else { // Must be Bottom-Right
-				if(i + j < 96)
-					planeTexture.setRGB(i,j,0,0,0);
-				else
-					planeTexture.setRGB(i,j,1,1,1);
-			}
-		}
-	}
-	Plane.setTexture(planeTexture.getTexture());
-	Plane.loadTHREEObject(
-		new THREE.PlaneGeometry(50,50,10,10),
-		light1, _VERTEX_SHADER, _PURE_TEXTURE_FRAGMENT_SHADER
-	);
-	Plane.mesh.position.y = 50;
-	Plane.mesh.rotation.x = Math.PI/2;
-	scene.add(Plane.mesh);
-	
 	
 	// This code is from http://threejs.org/examples/webgl_postprocessing_godrays.html
 	renderer = new THREE.WebGLRenderer( { antialias: false } );
