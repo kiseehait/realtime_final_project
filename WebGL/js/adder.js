@@ -65,5 +65,8 @@ $( document ).ready(function() {
 	initAdder();
 
 	// Cube
-	addNewObject("box01", "cube.obj", "box.jpg", 5, 5, -5, 0.1, 0.1, 0.0);
+	addNewObject("box01", "cube.obj", "ruby.jpg", 5, 5, -5, 0.1, 0.1, 0.0);
+
+	// Tree
+	addNewObject("tree01", "tree.obj", "box.jpg", -5, 0, -5, 0, 0.1, 0.0);
 });
