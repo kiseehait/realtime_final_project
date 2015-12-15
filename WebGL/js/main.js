@@ -52,7 +52,7 @@ cube1.mesh.castShadow = true;
 cube1.mesh.receiveShadow = true;
 scene.add(cube1.mesh);
 meshObject.push({
-	o: cube1.mesh,
+	o: cube1,
 	rotFac: new THREE.Vector3( 0.1, 0.1, 0.1 )
 });
 
@@ -69,7 +69,7 @@ cube2.mesh.castShadow = true;
 cube2.mesh.receiveShadow = true;
 scene.add(cube2.mesh);
 meshObject.push({
-	o: cube2.mesh,
+	o: cube2,
 	rotFac: new THREE.Vector3( 0.01, 0.01, 0.0 )
 });
 
@@ -88,7 +88,7 @@ tree1.mesh.receiveShadow = true;
 tree1.mesh.geometry.computeVertexNormals();
 scene.add(tree1.mesh);
 meshObject.push({
-	o: tree1.mesh,
+	o: tree1,
 	rotFac: new THREE.Vector3( 0.0, 0.05, 0.0 )
 });
 
@@ -178,6 +178,7 @@ Plane.mesh.position.y = 50;
 Plane.mesh.rotation.x = Math.PI/2;
 scene.add(Plane.mesh);
 
+removeObject("cube1");
 
 var render = function () {
 	requestAnimationFrame( render );
@@ -197,11 +198,9 @@ var render = function () {
 	});
 
 	meshObject.forEach(function(obj) {
-		console.log(obj.o.id);
-
-		obj.o.rotation.x += obj.rotFac.x;
-		obj.o.rotation.y += obj.rotFac.y;
-		obj.o.rotation.z += obj.rotFac.z;
+		obj.o.mesh.rotation.x += obj.rotFac.x;
+		obj.o.mesh.rotation.y += obj.rotFac.y;
+		obj.o.mesh.rotation.z += obj.rotFac.z;
 	});
 };
 

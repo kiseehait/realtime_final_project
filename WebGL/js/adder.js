@@ -12,7 +12,19 @@ var addObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 	object.mesh.receiveShadow = true;
 	scene.add(object.mesh);
 	meshObject.push({
-		o: object.mesh,
+		o: object,
 		rotFac: new THREE.Vector3( dx, dy, dz )
 	});
+};
+
+var removeObject = function(name) {
+	meshObject.forEach(function(obj) {
+		if (obj.o.name == name) id = obj.o.id;
+	});
+	for(var i = meshObject.length - 1; i >= 0; i--) {
+		if(meshObject[i].o.objectName == name) {
+			scene.remove(meshObject[i].o.mesh);
+			meshObject.splice(i, 1);
+		}
+	}
 };
