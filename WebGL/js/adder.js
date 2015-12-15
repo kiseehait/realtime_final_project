@@ -24,6 +24,9 @@ var addNewObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 	object.mesh.position.z = z;
 	object.mesh.castShadow = true;
 	object.mesh.receiveShadow = true;
+
+	if (type == "batman.obj" || type == "suzanne.obj" || type == "Trex.obj") object.mesh.geometry.computeVertexNormals();
+
 	scene.add(object.mesh);
 	meshObject.push({
 		o: object,
