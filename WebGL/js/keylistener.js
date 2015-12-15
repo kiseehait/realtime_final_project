@@ -159,4 +159,7 @@ function updateCamera() {
 				sky.setSpecular(0,0,0);
 			}
 		}
+	
+
+	lastTimeUpdate = Date.now();
 }
