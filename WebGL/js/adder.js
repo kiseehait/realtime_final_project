@@ -1,3 +1,5 @@
+var name_id = 101;
+
 var addObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 	var object = new MeshObject(name);
 	object.loadTexture(mat);
@@ -28,3 +30,10 @@ var removeObject = function(name) {
 		}
 	}
 };
+
+function addObjForm(type, mat, x, y, z, dx, dy, dz) {
+	dx = parseFloat(dx);
+	dy = parseFloat(dy);
+	dz = parseFloat(dz);
+    addObject("" + name_id++, type, mat, x, y, z, dx, dy, dz);
+}

@@ -92,7 +92,7 @@ meshObject.push({
 	rotFac: new THREE.Vector3( 0.0, 0.05, 0.0 )
 });
 
-addObject("mycube", "cube.obj", "box.jpg", 10, 10, -10, 0.1, 0.0, 0.0);
+
 
 /*
 var ground = new MeshObject("ground");
@@ -178,7 +178,10 @@ Plane.mesh.position.y = 50;
 Plane.mesh.rotation.x = Math.PI/2;
 scene.add(Plane.mesh);
 
+/*
 removeObject("cube1");
+removeObject("tree1");
+*/
 
 var render = function () {
 	requestAnimationFrame( render );
