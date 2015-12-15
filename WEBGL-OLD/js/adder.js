@@ -12,12 +12,12 @@ $( document ).ready(function() {
 	initAdder();
 });
 
-var addNewObject = function(name, type, mat, x, y, z, dx, dy, dz) {
+var addObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 	var object = new MeshObject(name);
 	object.loadTexture(mat);
 	object.loadObject(
 		type,
-		light1, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
+		light, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
 	);
 	object.mesh.position.y = x;
 	object.mesh.position.x = y;
@@ -57,5 +57,5 @@ function addObjForm(name, type, mat, x, y, z, dx, dy, dz) {
 	dx = parseFloat(dx);
 	dy = parseFloat(dy);
 	dz = parseFloat(dz);
-    addNewObject(name, type, mat, x, y, z, dx, dy, dz);
+    addObject(name, type, mat, x, y, z, dx, dy, dz);
 }
