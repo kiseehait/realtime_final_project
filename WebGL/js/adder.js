@@ -1,3 +1,4 @@
+// Initialization
 function initAdder() {
 	var list = document.getElementById("name-list");
 	for (var i = 0; i < meshObject.length; i++) {
@@ -8,6 +9,7 @@ function initAdder() {
 	}
 }
 
+// Adder
 var addNewObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 	var object = new MeshObject(name);
 	object.loadTexture(mat);
@@ -36,6 +38,7 @@ var addNewObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 	list.appendChild(element);
 };
 
+// Remover
 var removeObject = function(name) {
 	meshObject.forEach(function(obj) {
 		if (obj.o.name == name) id = obj.o.id;
@@ -52,6 +55,7 @@ var removeObject = function(name) {
 	list.remove(index);
 };
 
+// Adder Handler
 function addObjForm(name, type, mat, x, y, z, dx, dy, dz) {
 	dx = parseFloat(dx);
 	dy = parseFloat(dy);
@@ -59,8 +63,7 @@ function addObjForm(name, type, mat, x, y, z, dx, dy, dz) {
     addNewObject(name, type, mat, x, y, z, dx, dy, dz);
 }
 
-
-
+// Default Objects
 $( document ).ready(function() {
 	initAdder();
 

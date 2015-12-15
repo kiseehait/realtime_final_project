@@ -1,6 +1,8 @@
+// Load Object from file *.obj
 function readObjectFromFile(file) {
 	var geometry = new THREE.Geometry();
 
+	// Reader
 	var oFile = new XMLHttpRequest();
 	oFile.open("GET", "./obj/"+file, false);
 
@@ -37,6 +39,7 @@ function readObjectFromFile(file) {
 	var uvs = [];
 	var faces = [];
 	
+	// Parser
 	var lines = allText.split('\n');
 	for(var line = 0; line < lines.length; line++) {
 		switch (lines[line].substring(0, 2)) {
@@ -71,6 +74,7 @@ function readObjectFromFile(file) {
 		}
 	}
 	
+	// Finishing
 	for(var i=0;i<vertices.length;i++) {
 		geometry.vertices.push(vertices[i]);
 	}
