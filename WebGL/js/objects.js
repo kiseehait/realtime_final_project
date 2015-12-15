@@ -114,6 +114,7 @@ MeshObject.prototype.makeMaterial = function() {
 		fragmentShader : this.fragmentShader
 	});
 	this.material.transparent = true;
+	this.material.needsUpdate = true;
 	this.material.side = THREE.DoubleSide;
 };
 MeshObject.prototype.makeMesh = function() {
