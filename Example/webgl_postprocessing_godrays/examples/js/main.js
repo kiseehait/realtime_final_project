@@ -20,6 +20,8 @@
 
 			var bgColor = 0x256FC4;
 			var sunColor_g = 0xffee00;
+
+			var light1;
 			
 			var _VERTEX_SHADER = document.getElementById( 'vertexShader' ).textContent;
 			var _FRAGMENT_SHADER = document.getElementById( 'fragmentShader' ).textContent;
@@ -78,7 +80,7 @@
 
 				scene.add( light );
 				
-				var light1 = new Light();
+				light1 = new Light();
 				light1.setPosition( sunPosition.x, sunPosition.y, sunPosition.z );
 				light1.setColor(1.0,1.0,1.0);
 				
