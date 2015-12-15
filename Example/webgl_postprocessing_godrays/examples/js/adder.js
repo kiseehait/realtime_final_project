@@ -3,7 +3,7 @@ var addObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 	object.loadTexture(mat);
 	object.loadObject(
 		type,
-		light, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
+		light1, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
 	);
 	object.mesh.position.y = x;
 	object.mesh.position.x = y;
