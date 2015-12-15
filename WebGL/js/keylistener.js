@@ -129,6 +129,7 @@ function updateCamera() {
 	camera.position.z = position.z;
 
 	sunPosition.set(0, 500*Math.sin(sunAngle), 500*Math.cos(sunAngle));
+	sun.position.set(0, 500*Math.sin(sunAngle), 500*Math.cos(sunAngle));
 	light.position.set(0, 500*Math.sin(sunAngle), 500*Math.cos(sunAngle));
 	light1.setPosition(0, 500*Math.sin(sunAngle), 500*Math.cos(sunAngle));
 	
@@ -154,9 +155,13 @@ function updateCamera() {
 			//sky.setSpecular(1,1,1);
 		} else {
 			if (sunPosition.y >= 0) {
+				bgColor = 0x256FC4;
+				renderer.setClearColor( bgColor );
 				sunColor.set(1,1,1);
 				//sky.setSpecular(1,1,1);
 			} else {
+				bgColor = 0x11112f;
+				renderer.setClearColor( bgColor );
 				sunColor.set(0.1,0.1,0.1);
 				//sky.setSpecular(0,0,0);
 			}

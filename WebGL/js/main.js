@@ -2,7 +2,7 @@
 var container;
 var camera, scene, renderer, materialDepth;
 
-var sphereMesh;
+var sun;
 
 var sunPosition;
 var sunColor;
@@ -68,7 +68,7 @@ function init() {
 
 	materialDepth = new THREE.MeshDepthMaterial();
 
-	var materialScene = new THREE.MeshPhongMaterial( { color: 0x666666 } );	
+	var materialScene = new THREE.MeshPhongMaterial( { color: 0x111111 } );	
 
 	// Ground
 	var groundTexture = THREE.ImageUtils.loadTexture( "textures/grass.jpg" );
@@ -83,6 +83,12 @@ function init() {
 	mesh.rotation.x = - Math.PI / 2;
 	mesh.receiveShadow = true;
 	scene.add( mesh );
+	
+	var sunGeo = new THREE.SphereGeometry( 20, 20, 20 );
+	var sunMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff } );
+	sun = new THREE.Mesh( sunGeo, sunMaterial );
+	sun.position.set( sunPosition.x, sunPosition.y, sunPosition.z );
+	scene.add( sun );
 
 
 	// Cloud :: This code has writen by ourself.
@@ -235,8 +241,8 @@ function render() {
 		postprocessing.godrayGenUniforms[ "vSunPositionScreenSpace" ].value.x = screenSpacePosition.x;
 		postprocessing.godrayGenUniforms[ "vSunPositionScreenSpace" ].value.y = screenSpacePosition.y;
 
-		postprocessing.godraysFakeSunUniforms[ "vSunPositionScreenSpace" ].value.x = screenSpacePosition.x;
-		postprocessing.godraysFakeSunUniforms[ "vSunPositionScreenSpace" ].value.y = screenSpacePosition.y;
+		/*postprocessing.godraysFakeSunUniforms[ "vSunPositionScreenSpace" ].value.x = screenSpacePosition.x;
+		postprocessing.godraysFakeSunUniforms[ "vSunPositionScreenSpace" ].value.y = screenSpacePosition.y;*/
 
 		renderer.clearTarget( postprocessing.rtTextureColors, true, true, false );
 
@@ -246,7 +252,7 @@ function render() {
 		screenSpacePosition.x *= window.innerWidth;
 		screenSpacePosition.y *= window.innerHeight;
 
-		renderer.setScissor( screenSpacePosition.x - sunsqW / 2, screenSpacePosition.y - sunsqH / 2, sunsqW, sunsqH );
+		/*renderer.setScissor( screenSpacePosition.x - sunsqW / 2, screenSpacePosition.y - sunsqH / 2, sunsqW, sunsqH );
 		renderer.enableScissorTest( true );
 
 		postprocessing.godraysFakeSunUniforms[ "fAspect" ].value = window.innerWidth / window.innerHeight;
@@ -254,7 +260,7 @@ function render() {
 		postprocessing.scene.overrideMaterial = postprocessing.materialGodraysFakeSun;
 		renderer.render( postprocessing.scene, postprocessing.camera, postprocessing.rtTextureColors );
 
-		renderer.enableScissorTest( false );
+		renderer.enableScissorTest( false );*/
 
 		scene.overrideMaterial = null;
 		renderer.render( scene, camera, postprocessing.rtTextureColors );
