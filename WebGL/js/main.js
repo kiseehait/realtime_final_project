@@ -10,6 +10,7 @@ light.setColor(1.0,1.0,1.0);
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setClearColor( 0x00b2ff );
 document.body.appendChild( renderer.domElement );
 
 // Set Shadow Map
@@ -101,7 +102,7 @@ sky.mesh.position.x = 382;
 sky.mesh.position.y = 300;
 sky.mesh.position.z = 182;
 sky.mesh.geometry.computeVertexNormals();
-scene.add(sky.mesh);
+//scene.add(sky.mesh);
 
 // New Ground
 var geometry = new THREE.CubeGeometry( 100, 1, 100);
@@ -130,23 +131,37 @@ shadowRenderFunction.push(function(){
 	renderer.render( scene, camera );		
 });
 
+function NoiseRandom() {
+	return Math.random();
+}
+
+
+// Cloud Generate by Perlin Noise
 var Plane = new MeshObject("cloud");
-var nL = 64;
-var L = nL<<5;
+var nL = 32;
+var L = nL<<4;
 var planeTexture = new RawTexture("cloud");
 planeTexture.newSize(L);
+var cloud1 = new RawTexture("cloud1");
+var cloud2 = new RawTexture("cloud2");
+cloud1.newSize(L);
+cloud2.newSize(L);
 var noise = new RawTexture("noise");
-noise.newSize(nL+1)
-for(var i=0;i<nL+1;i++) {
-	for(var j=0;j<nL+1;j++) {
-		var rand = Math.random();
-		noise.setRGB(i,j,rand,rand,rand);
-	}
-}
+var noise2 = new RawTexture("noise2");
+noise.newSize(nL+1);
+noise2.newSize(nL+1);
 function BilinearInterpolate(v1,v2,v3,v4,x,y) {
 	var cX1 = v1 + x*(v2-v1);
 	var cX2 = v3 + x*(v4-v3);
 	return  cX1 + y*(cX2-cX1);
+}
+for(var i=0;i<nL+1;i++) {
+	for(var j=0;j<nL+1;j++) {
+		var rand = NoiseRandom();
+		noise.setRGB(i,j,rand,rand,rand);
+		rand = NoiseRandom();
+		noise2.setRGB(i,j,rand,rand,rand);
+	}
 }
 for(var i=0;i<L;i++) {
 	for(var j=0;j<L;j++) {
@@ -157,13 +172,26 @@ for(var i=0;i<L;i++) {
 		var v2 = noise.getGray(x2,y1);
 		var v3 = noise.getGray(x1,y2);
 		var v4 = noise.getGray(x2,y2);
-		var s = BilinearInterpolate(v1,v2,v3,v4,x-x1,y-y1);
-		planeTexture.setRGBA(i,j,s,s,s,s);
+		var s  = BilinearInterpolate(v1,v2,v3,v4,x-x1,y-y1);
+		cloud1.setRGBA(i,j,s,s,s,s);
+		
+		v1 = noise2.getGray(x1,y1);
+		v2 = noise2.getGray(x2,y1);
+		v3 = noise2.getGray(x1,y2);
+		v4 = noise2.getGray(x2,y2);
+		s  = BilinearInterpolate(v1,v2,v3,v4,x-x1,y-y1);
+		cloud2.setRGBA(i,j,s,s,s,s);
 	}
 }
 var blendTimes = 0;
 for(var k=nL;k<L;k<<=1) {
 	blendTimes++;
+	for(var i=0;i<nL+1;i++) {
+		for(var j=0;j<nL+1;j++) {
+			var rand = NoiseRandom();
+			noise.setRGB(i,j,rand,rand,rand);
+		}
+	}
 	for(var i=0;i<k;i++) {
 		for(var j=0;j<k;j++) {
 			var x = i/k*nL, y = j/k*nL;
@@ -173,37 +201,93 @@ for(var k=nL;k<L;k<<=1) {
 			var v2 = noise.getGray(x2,y1);
 			var v3 = noise.getGray(x1,y2);
 			var v4 = noise.getGray(x2,y2);
-		var s = BilinearInterpolate(v1,v2,v3,v4,x-x1,y-y1);
+			var s = BilinearInterpolate(v1,v2,v3,v4,x-x1,y-y1);
 			for(var p=0;p<L;p+=k) {
 				for(var q=0;q<L;q+=k) {
-					planeTexture.blend(p+i,q+j,s,blendTimes);
-					//planeTexture.setRGB(p+i,q+j,s,s,s);
+					cloud1.blend(p+i,q+j,s,blendTimes);
+				}
+			}
+			
+			v1 = noise2.getGray(x1,y1);
+			v2 = noise2.getGray(x2,y1);
+			v3 = noise2.getGray(x1,y2);
+			v4 = noise2.getGray(x2,y2);
+			s  = BilinearInterpolate(v1,v2,v3,v4,x-x1,y-y1);
+			for(var p=0;p<L;p+=k) {
+				for(var q=0;q<L;q+=k) {
+					cloud2.blend(p+i,q+j,s,blendTimes);
 				}
 			}
 		}
 	}
 }
-/*
-var CloudCover = 150; // 0 - 255
-var CloudSharpness = 0.9; // < 1.0
+
 for(var i=0;i<L;i++) {
 	for(var j=0;j<L;j++) {
-		var c = 255*planeTexture.getGray(i,j) - CloudCover;
-		if(c < 0) c = 0;
-		var CloudDensity  = (255 - 255*Math.pow(CloudSharpness,c))/255;
-		planeTexture.setRGBA(i,j,CloudDensity,CloudDensity,CloudDensity,CloudDensity);
+		var vec4 = cloud1.getRGBA(i,j);
+		if(vec4.w < 0.5) {
+			cloud1.setA(i,j,0);
+		}
+		
+		vec4 = cloud2.getRGBA(i,j);
+		if(vec4.w < 0.5) {
+			cloud2.setA(i,j,0);
+		}
+		planeTexture.setRGBAV4(i,j,cloud1.getRGBA(i,j));
 	}
 }
-*/
+planeTexture.dataTexture.anisotropy = 2;
 Plane.setTexture(planeTexture.dataTexture);
 Plane.loadTHREEObject(
 	new THREE.PlaneGeometry(100,100,10,10),
 	light, _VERTEX_SHADER, _PURE_TEXTURE_FRAGMENT_SHADER
 );
-Plane.mesh.position.y = 50;
+Plane.mesh.position.y = 1000;
+Plane.mesh.scale.x = Plane.mesh.scale.y = 100;
 Plane.mesh.rotation.x = Math.PI/2;
 Plane.mesh.material.needsUpdate = true;
 scene.add(Plane.mesh);
+var CloudTiming = 0, CloudSelect = true, CloudMov = 0, CloudMovDist = 3;
+function updateCloud() {
+	if(CloudTiming >= 1) {
+		CloudSelect = false;
+		CloudTiming = 1;
+	}
+	else if(CloudTiming <= 0){
+		CloudSelect = true;
+		CloudTiming = 0;
+	}
+	if(CloudSelect)
+		CloudTiming += 0.01;
+	else
+		CloudTiming -= 0.01;
+	CloudMov += 0.005;
+	var Mov = 0;
+	if(CloudMov-Math.floor(CloudMov) == 0) {
+		Mov = CloudMov;
+		Plane.mesh.position.z = 0;
+	}
+	else {
+		Mov = Math.floor(CloudMov);
+		Plane.mesh.position.z -= CloudMovDist;
+	}
+	for(var i=0;i<planeTexture.length;i++) {
+		for(var j=0;j<planeTexture.length;j++) {
+			var x = (i+Mov)%cloud1.length, y = j;
+			var c1 = cloud1.getRGBA(x,y), c2 = cloud2.getRGBA(x,y), halfL = planeTexture.length>>1;
+			c1.multiplyScalar(CloudTiming);
+			c2.multiplyScalar(1-CloudTiming);
+			c1.add(c2);
+			planeTexture.setRGBAV4(i,j,c1);
+			
+			var distance = ((i-halfL)*(i-halfL)+(j-halfL)*(j-halfL))/halfL/halfL;
+			planeTexture.setA(i,j,(1-distance)*c1.x);
+		}
+	}
+	planeTexture.update();
+}
+updateCloud();
+var cloudInterval = setInterval(updateCloud,200);
 
 
 var render = function () {
@@ -213,7 +297,7 @@ var render = function () {
 	cube1.mesh.rotation.x += 0.01;
 	cube2.mesh.rotation.y += 0.01;
 	cube2.mesh.rotation.x -= 0.01;
-
+	
 	sunAngle += sunSpeed*sunDAngle;
 	if (sunAngle > 2*Math.PI) sunAngle = 0;
 	else if (sunAngle < 0) sunAngle = 2*Math.PI;

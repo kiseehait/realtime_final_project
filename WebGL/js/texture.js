@@ -20,7 +20,7 @@ RawTexture.prototype.newSize = function(length) {
 	);
 	this.dataTexture.needsUpdate = true;
 };
-RawTexture.prototype.setRGBA = function(x,y,vec4) {
+RawTexture.prototype.setRGBAV4 = function(x,y,vec4) {
 	this.dataTexture.image.data[4*this.length*x + 4*y    ] = to255(vec4.x);
 	this.dataTexture.image.data[4*this.length*x + 4*y + 1] = to255(vec4.y);
 	this.dataTexture.image.data[4*this.length*x + 4*y + 2] = to255(vec4.z);
@@ -32,7 +32,7 @@ RawTexture.prototype.setRGBA = function(x,y,R,G,B,A) {
 	this.dataTexture.image.data[4*this.length*x + 4*y + 2] = to255(B);
 	this.dataTexture.image.data[4*this.length*x + 4*y + 3] = to255(A);
 };
-RawTexture.prototype.setRGB = function(x,y,vec3) {
+RawTexture.prototype.setRGBV3 = function(x,y,vec3) {
 	this.dataTexture.image.data[4*this.length*x + 4*y    ] = to255(vec3.x);
 	this.dataTexture.image.data[4*this.length*x + 4*y + 1] = to255(vec3.y);
 	this.dataTexture.image.data[4*this.length*x + 4*y + 2] = to255(vec3.z);
@@ -85,3 +85,6 @@ RawTexture.prototype.blend = function(x,y,c,blendTimes) {
 	this.dataTexture.image.data[4*this.length*x + 4*y + 2] = (this.dataTexture.image.data[4*this.length*x + 4*y + 2]*blendTimes + c)/(blendTimes+1);
 	this.dataTexture.image.data[4*this.length*x + 4*y + 3] = (this.dataTexture.image.data[4*this.length*x + 4*y + 3]*blendTimes + c)/(blendTimes+1);
 };
+RawTexture.prototype.update = function() {
+	this.dataTexture.needsUpdate = true;
+}
