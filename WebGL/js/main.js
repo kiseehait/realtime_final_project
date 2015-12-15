@@ -12,9 +12,6 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-// Array Of MeshObject
-var meshObject = [];
-
 // Set Shadow Map
 renderer.shadowMap.enabled	= true;
 renderer.shadowMap.type 		= THREE.PCFSoftShadowMap;
@@ -51,10 +48,6 @@ cube1.mesh.position.z = -5;
 cube1.mesh.castShadow = true;
 cube1.mesh.receiveShadow = true;
 scene.add(cube1.mesh);
-meshObject.push({
-	o: cube1.mesh,
-	rotFac: new THREE.Vector3( 0.1, 0.1, 0.1 )
-});
 
 var cube2 = new MeshObject("cube2");
 cube2.loadTexture("box.jpg");
@@ -68,10 +61,6 @@ cube2.mesh.position.z = -5;
 cube2.mesh.castShadow = true;
 cube2.mesh.receiveShadow = true;
 scene.add(cube2.mesh);
-meshObject.push({
-	o: cube2.mesh,
-	rotFac: new THREE.Vector3( 0.01, 0.01, 0.0 )
-});
 
 // Tree Test
 var tree1 = new MeshObject("tree1");
@@ -87,12 +76,6 @@ tree1.mesh.castShadow = true;
 tree1.mesh.receiveShadow = true;
 tree1.mesh.geometry.computeVertexNormals();
 scene.add(tree1.mesh);
-meshObject.push({
-	o: tree1.mesh,
-	rotFac: new THREE.Vector3( 0.0, 0.05, 0.0 )
-});
-
-addObject("mycube", "cube.obj", "box.jpg", 10, 10, -10, 0.1, 0.0, 0.0);
 
 /*
 var ground = new MeshObject("ground");
@@ -182,7 +165,11 @@ scene.add(Plane.mesh);
 var render = function () {
 	requestAnimationFrame( render );
 	updateCamera();
-
+	cube1.mesh.rotation.y += 0.01;
+	cube1.mesh.rotation.x += 0.01;
+	cube2.mesh.rotation.y += 0.01;
+	cube2.mesh.rotation.x -= 0.01;
+	
 	sunAngle += sunSpeed*sunDAngle;
 	if (sunAngle > 2*Math.PI) sunAngle = 0;
 	else if (sunAngle < 0) sunAngle = 2*Math.PI;
@@ -192,16 +179,8 @@ var render = function () {
 
 	renderer.render(scene, camera);
 
-	shadowRenderFunction.forEach(function(func) {
+	shadowRenderFunction.forEach(function(func){
 		func(1, 1);
-	});
-
-	meshObject.forEach(function(obj) {
-		console.log(obj.o.id);
-
-		obj.o.rotation.x += obj.rotFac.x;
-		obj.o.rotation.y += obj.rotFac.y;
-		obj.o.rotation.z += obj.rotFac.z;
 	});
 };
 
