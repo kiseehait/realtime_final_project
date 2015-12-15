@@ -66,12 +66,7 @@ function init() {
 
 	materialDepth = new THREE.MeshDepthMaterial();
 
-	var materialScene = new THREE.MeshPhongMaterial( { color: 0x666666 } );
-	
-
-	// Cube :: This code has writen by ourself.
-	AddNewObject("box01", "box01", "box.obj", "box.jpg", 5, 5, -5 0.1, 0.1, 0.0);
-	
+	var materialScene = new THREE.MeshPhongMaterial( { color: 0x666666 } );	
 
 	// Ground
 	var groundTexture = THREE.ImageUtils.loadTexture( "textures/grass.jpg" );

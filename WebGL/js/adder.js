@@ -8,10 +8,6 @@ function initAdder() {
 	}
 }
 
-$( document ).ready(function() {
-	initAdder();
-});
-
 var addNewObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 	var object = new MeshObject(name);
 	object.loadTexture(mat);
@@ -62,3 +58,12 @@ function addObjForm(name, type, mat, x, y, z, dx, dy, dz) {
 	dz = parseFloat(dz);
     addNewObject(name, type, mat, x, y, z, dx, dy, dz);
 }
+
+
+
+$( document ).ready(function() {
+	initAdder();
+
+	// Cube
+	addNewObject("box01", "cube.obj", "box.jpg", 5, 5, -5, 0.1, 0.1, 0.0);
+});
