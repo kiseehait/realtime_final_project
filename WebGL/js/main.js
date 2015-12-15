@@ -1,3 +1,4 @@
+// This Part is from http://threejs.org/examples/webgl_postprocessing_godrays.html
 var container;
 var camera, scene, renderer, materialDepth;
 
@@ -25,11 +26,13 @@ var _VERTEX_SHADER = document.getElementById( 'vertexShader' ).textContent;
 var _FRAGMENT_SHADER = document.getElementById( 'fragmentShader' ).textContent;
 var _TEXTURE_FRAGMENT_SHADER = document.getElementById( 'textureFragmentShader' ).textContent;
 var _PURE_TEXTURE_FRAGMENT_SHADER = document.getElementById( 'pureTextureFragmentShader' ).textContent;
+// End of code from http://threejs.org/examples/webgl_postprocessing_godrays.html
 
-//var shadowRenderFunction= [];
 
 var meshObject = []; // Array Of MeshObject
 
+
+// This part is change from the original source code from http://threejs.org/examples/webgl_postprocessing_godrays.html
 init();
 
 render();
@@ -39,25 +42,14 @@ function init() {
 	container = document.createElement( 'div' );
 	document.body.appendChild( container );
 
-	//
-
 	camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 3000 );
-	//camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 10000 );
 	camera.position.z = 200;
 
 	scene = new THREE.Scene();
 	
-	//
-	
 	sunPosition = new THREE.Vector3( 0, 1000, -1000 );
 	sunColor = new THREE.Vector3( 1.0, 1.0, 1.0 )
-	
-	//
-	
-	//scene.add( new THREE.AmbientLight( 0x666666 ) );
-	
-	//
-	
+
 	light = new THREE.SpotLight( 0xffffff, 1, 0, Math.PI / 2, 1 );
 	light.position.set( sunPosition.x, sunPosition.y, sunPosition.z );
 	light.position.multiplyScalar( 1.5 );
@@ -65,132 +57,23 @@ function init() {
 
 	light.castShadow = true;
 
-	/*light.shadowCameraNear = 1200;
-	light.shadowCameraFar = 2500;
-	light.shadowCameraFov = 50;
-
-	//light.shadowCameraVisible = true;
-
-	light.shadowBias = 0.0001;
-
-	light.shadowMapWidth = 1024;
-	light.shadowMapHeight = 1024;*/
-
 	scene.add( light );
 	
 	light1 = new Light();
 	light1.setPosition( sunPosition.x, sunPosition.y, sunPosition.z );
 	light1.setColor(1.0,1.0,1.0);
 	
-	//
 
 	materialDepth = new THREE.MeshDepthMaterial();
 
 	var materialScene = new THREE.MeshPhongMaterial( { color: 0x666666 } );
 	
-	// Cube
-	
-	var cube1 = new MeshObject("cube1");
-	cube1.loadTexture("box.jpg");
-	cube1.loadObject(
-		"cube.obj",
-		light1, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
-	);
-	cube1.mesh.position.y = 5;
-	cube1.mesh.position.x = 5;
-	cube1.mesh.position.z = -5;
-	cube1.mesh.castShadow = true;
-	cube1.mesh.receiveShadow = true;
-	scene.add(cube1.mesh);
-	meshObject.push({
-		o: cube1,
-		rotFac: new THREE.Vector3( 0.1, 0.1, 0.1 )
-	});
 
-	var cube2 = new MeshObject("cube2");
-	cube2.loadTexture("box.jpg");
-	cube2.loadObject(
-		"cube.obj",
-		light1, _VERTEX_SHADER, _FRAGMENT_SHADER
-	);
-	cube2.mesh.position.y = 5;
-	cube2.mesh.position.x = -5;
-	cube2.mesh.position.z = -5;
-	cube2.mesh.castShadow = true;
-	cube2.mesh.receiveShadow = true;
-	scene.add(cube2.mesh);
-	meshObject.push({
-		o: cube2,
-		rotFac: new THREE.Vector3( 0.01, 0.01, 0.0 )
-	});
-
-	// tree
+	// Cube :: This code has writen by ourself.
+	AddNewObject("box01", "box01", "box.obj", "box.jpg", 5, 5, -5 0.1, 0.1, 0.0);
 	
-	var tree1 = new MeshObject("tree1");
-	tree1.loadTexture("box.jpg");
-	tree1.loadObject(
-		"tree.obj",
-	light1, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
-	);
-	//tree1.mesh.scale.multiplyScalar( 50 );
-	tree1.mesh.position.y = 0;
-	tree1.mesh.position.x = 5;
-	tree1.mesh.position.z = -10;
-	tree1.mesh.castShadow = true;
-	tree1.mesh.receiveShadow = true;
-	tree1.mesh.geometry.computeVertexNormals();
-	scene.add(tree1.mesh);
-	meshObject.push({
-		o: tree1,
-		rotFac: new THREE.Vector3( 0.0, 0.05, 0.0 )
-	});
-	
-	/*var treeTexture = THREE.ImageUtils.loadTexture( "textures/terrain/grass.jpg" );
-	treeTexture.wrapS = treeTexture.wrapT = THREE.RepeatWrapping;
-	treeTexture.repeat.set( 25, 25 );
-	treeTexture.anisotropy = 16;
-
-	var loader = new THREE.OBJLoader();
-	loader.load( "models/obj/tree.obj", function ( object ) {
-		object.material = new THREE.MeshPhongMaterial( { color: 0x666666 , map: treeTexture } );
-		object.position.set( 0, -150, -150 );
-		object.scale.multiplyScalar( 50 );
-		object.receiveShadow = true;
-		object.castShadow = true;
-		scene.add( object );
-
-	} );*/
-
-	// sphere
-
-	/*var geo = new THREE.SphereGeometry( 1, 20, 10 );
-	sphereMesh = new THREE.Mesh( geo, materialScene );
-	sphereMesh.scale.multiplyScalar( 20 );
-	sphereMesh.receiveShadow = true;
-	sphereMesh.castShadow = true;
-	scene.add( sphereMesh );*/
-	
-	//
-	
-	//addObject("mycube", "cube.obj", "box.jpg", 10, 10, -10, 0.1, 0.0, 0.0);
-	
-	// Sky
-	
-	/*var sky = new MeshObject("sky");
-	sky.loadTexture("sky.jpg");
-	sky.loadObject(
-		"sky2.obj",
-		light1, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
-	);
-	sky.setSpecular(1,1,1);
-	sky.mesh.position.x = 382;
-	sky.mesh.position.y = 300;
-	sky.mesh.position.z = 182;
-	sky.mesh.geometry.computeVertexNormals();
-	scene.add(sky.mesh);*/
 
 	// Ground
-	
 	var groundTexture = THREE.ImageUtils.loadTexture( "textures/grass.jpg" );
 	groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
 	groundTexture.repeat.set( 25, 25 );
@@ -204,39 +87,8 @@ function init() {
 	mesh.receiveShadow = true;
 	scene.add( mesh );
 
-	//var ground = new MeshObject("ground");
-	//ground.loadTexture("grass.jpg");
-	//ground.loadObject(
-	//	"cube2.obj",
-	//	light1, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
-	//);
-	//ground.mesh.position.y = -102;
-	//ground.setSpecular(0,0,0);
-	//scene.add(ground.mesh);
-	
-	/*var geometry = new THREE.CubeGeometry( 100, 1, 100);
-	var texture	= THREE.ImageUtils.loadTexture('textures/grass.jpg');
-	texture.repeat.set( 10, 10 );
-	texture.wrapS = THREE.RepeatWrapping;
-	texture.wrapT = THREE.RepeatWrapping;
-	var material = new THREE.MeshPhongMaterial({
-		ambient	: 0xffffff,
-		color : 0x00ff00,
-		shininess : 0, 
-		specular : 0x000000,
-		shading	: THREE.SmoothShading,
-		map	: texture
-	});
-	var ground = new THREE.Mesh( geometry, material );
-	ground.scale.multiplyScalar(3);
-	ground.position.y = -1;
-	scene.add( ground );
-	
-	ground.castShadow = false;
-	ground.receiveShadow = true;*/
-	
-	// Cloud
-	
+
+	// Cloud :: This code has writen by ourself.
 	var Plane = new MeshObject("cloud");
 	var planeTexture = new RawTexture("cloud");
 	planeTexture.newSize(64);
@@ -268,15 +120,8 @@ function init() {
 	Plane.mesh.rotation.x = Math.PI/2;
 	scene.add(Plane.mesh);
 	
-	// Push to render function
-	/*shadowRenderFunction.push(function(){
-		renderer.render( scene, camera );		
-	});*/
 	
-	//removeObject("cube1");
-
-	//
-
+	// This code is from http://threejs.org/examples/webgl_postprocessing_godrays.html
 	renderer = new THREE.WebGLRenderer( { antialias: false } );
 	renderer.setClearColor( bgColor );
 	renderer.setPixelRatio( window.devicePixelRatio );
@@ -298,6 +143,7 @@ function init() {
 
 }
 
+// This code is from http://threejs.org/examples/webgl_postprocessing_godrays.html
 function initPostprocessing() {
 
 	postprocessing.scene = new THREE.Scene();
@@ -361,6 +207,7 @@ function initPostprocessing() {
 
 }
 
+// This code is MODIFY from http://threejs.org/examples/webgl_postprocessing_godrays.html
 function render() {
 	
 	var time = Date.now() / 4000;
@@ -368,17 +215,13 @@ function render() {
 	requestAnimationFrame( render );
 	updateCamera();
 
+	// Sun Position Calculator has writen by ourself.
 	sunAngle += sunSpeed*sunDAngle;
 	if (sunAngle > 2*Math.PI) sunAngle = 0;
 	else if (sunAngle < 0) sunAngle = 2*Math.PI;
 	
-	/*shadowRenderFunction.forEach(function(func) {
-		func(1, 1);
-	});*/
-	
-	/*sphereMesh.position.x = orbitRadius * Math.cos( time );
-	sphereMesh.position.z = orbitRadius * Math.sin( time ) - 100;*/
-	
+
+	// This code is from http://threejs.org/examples/webgl_postprocessing_godrays.html
 	meshObject.forEach(function(obj) {
 		obj.o.mesh.rotation.x += obj.rotFac.x;
 		obj.o.mesh.rotation.y += obj.rotFac.y;
