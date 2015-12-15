@@ -19,8 +19,8 @@ var addNewObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 		type,
 		light1, _VERTEX_SHADER, _TEXTURE_FRAGMENT_SHADER
 	);
-	object.mesh.position.y = x;
-	object.mesh.position.x = y;
+	object.mesh.position.x = x;
+	object.mesh.position.y = y;
 	object.mesh.position.z = z;
 	object.mesh.castShadow = true;
 	object.mesh.receiveShadow = true;
