@@ -2,7 +2,7 @@ function readObjectFromFile(file) {
 	var geometry = new THREE.Geometry();
 
 	var oFile = new XMLHttpRequest();
-	oFile.open("GET", "./models/obj/"+file, false);
+	oFile.open("GET", "./obj/"+file, false);
 
 	var allText = "";
 

@@ -36,18 +36,18 @@
 	</head>
 
 	<body>
-		<script src="../build/three.min.js"></script>
-		<script src="js/libs/jquery-2.1.4.min.js"></script>
-		<script src="js/libs/jquery-ui.js"></script>
-		<script src="js/loaders/OBJLoader.js"></script>
+	
+		<script src="js/Detector.js"></script>
+		<script src="lib/stats.min.js"></script>
+		
+		<script src="lib/three.min.js"></script>
+		<script src="lib/jquery-2.1.4.min.js"></script>
+		<script src="lib/jquery-ui.js"></script>
+		
 		<script src="js/ShaderGodRays.js"></script>
-		<script src="js/loader.js"></script>
 		<script src="js/loader.js"></script>
 		<script src="js/objects.js"></script>
 		<script src="js/lights.js"></script>
-
-		<script src="js/Detector.js"></script>
-		<script src="js/libs/stats.min.js"></script>
 		
 		<script id="vertexShader" type="x-shader/x-vertex">
 			uniform vec3 lightPos;
@@ -264,7 +264,7 @@
 				
 				//
 				
-				var groundTexture = THREE.ImageUtils.loadTexture( "textures/terrain/grass.jpg" );
+				var groundTexture = THREE.ImageUtils.loadTexture( "textures/grass.jpg" );
 				groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
 				groundTexture.repeat.set( 25, 25 );
 				groundTexture.anisotropy = 16;
