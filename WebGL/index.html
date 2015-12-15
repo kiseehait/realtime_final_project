@@ -144,6 +144,8 @@
 			<span id="add-remove">
 				<p>Add Object</p>
 				<form>
+					Object Name:
+					<input type="text" name="name" id="name">
 					Object Type:
 					<select name="type" id="type">
 						<option value="cube.obj">Cube</option>
@@ -154,8 +156,9 @@
 						<option value="box.jpg">Wood</option>
 						<option value="sky.jpg">Sky</option>
 					</select>
+					
 					Position(x,y,z):
-					<input type="number" name="x" id="x" >
+					<input type="number" name="x" id="x">
 					<input type="number" name="y" id="y">
 					<input type="number" name="z" id="z">
 					Rotation Factor(x,y,z):
@@ -163,9 +166,16 @@
 					<input type="number" name="dy" id="dy">
 					<input type="number" name="dz" id="dz">
 
-					<input type="button" value="Add" onclick="addObjForm(document.getElementById('type').value,document.getElementById('mat').value,document.getElementById('x').value,document.getElementById('y').value,document.getElementById('z').value,document.getElementById('dx').value,document.getElementById('dy').value,document.getElementById('dz').value)">
+					<input type="button" value="Add" onclick="addObjForm(document.getElementById('name').value,document.getElementById('type').value,document.getElementById('mat').value,document.getElementById('x').value,document.getElementById('y').value,document.getElementById('z').value,document.getElementById('dx').value,document.getElementById('dy').value,document.getElementById('dz').value)">
 				</form>
-
+				<br>
+				<p>Remove Object</p>
+				<form>
+					Object Name:
+					<select name="name-list" id="name-list">
+					</select>
+					<input type="button" value="Remove" onclick="removeObject(document.getElementById('name-list').value)">
+				</form>
 
 				
 			</span>

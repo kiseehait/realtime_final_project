@@ -1,4 +1,16 @@
-var name_id = 101;
+function initAdder() {
+	var list = document.getElementById("name-list");
+	for (var i = 0; i < meshObject.length; i++) {
+		var element = document.createElement("option");
+		element.text = meshObject[i].o.objectName;
+		element.value = meshObject[i].o.objectName;
+		list.appendChild(element);
+	}
+}
+
+$( document ).ready(function() {
+	initAdder();
+});
 
 var addObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 	var object = new MeshObject(name);
@@ -17,6 +29,12 @@ var addObject = function(name, type, mat, x, y, z, dx, dy, dz) {
 		o: object,
 		rotFac: new THREE.Vector3( dx, dy, dz )
 	});
+
+	var list = document.getElementById("name-list");
+	var element = document.createElement("option");
+	element.text = name;
+	element.value = name;
+	list.appendChild(element);
 };
 
 var removeObject = function(name) {
@@ -29,11 +47,15 @@ var removeObject = function(name) {
 			meshObject.splice(i, 1);
 		}
 	}
+
+	var index = $("#name-list").get(0).selectedIndex;
+	var list = document.getElementById("name-list");
+	list.remove(index);
 };
 
-function addObjForm(type, mat, x, y, z, dx, dy, dz) {
+function addObjForm(name, type, mat, x, y, z, dx, dy, dz) {
 	dx = parseFloat(dx);
 	dy = parseFloat(dy);
 	dz = parseFloat(dz);
-    addObject("" + name_id++, type, mat, x, y, z, dx, dy, dz);
+    addObject(name, type, mat, x, y, z, dx, dy, dz);
 }

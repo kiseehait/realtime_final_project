@@ -86,9 +86,13 @@ canvas {
 	top: 0;
 	left: 0;
 	right: 0;
-	height: 100px;
+	height: 170px;
 	background-color: rgba(1, 1, 1, 0.8);
 	color:white;
 	font-family: "Comic Sans MS", cursive, sans-serif;
 	font-size: 14px;
+}
+
+input {
+    width: 70px;
 }
