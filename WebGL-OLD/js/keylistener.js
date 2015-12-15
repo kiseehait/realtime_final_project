@@ -128,35 +128,35 @@ function updateCamera() {
 	camera.position.y = position.y;
 	camera.position.z = position.z;
 
-	sunPosition.set(0, 500*Math.sin(sunAngle), 500*Math.cos(sunAngle));
+	light.setPosition(0, 500*Math.sin(sunAngle), 500*Math.cos(sunAngle));
 	
-		if (sunPosition.z > dawnLimit) {
-			lightGap = sunPosition.z - dawnLimit;
-			if (sunPosition.y >= 0) {
+		if (light.lightPos.z > dawnLimit) {
+			lightGap = light.lightPos.z - dawnLimit;
+			if (light.lightPos.y >= 0) {
 				lightCol = 1 - lightGap/maxLightGap*0.5;
-				sunColor.set(1,lightCol,lightCol);
+				light.setColor(1,lightCol,lightCol);
 			} else {
 				lightCol = 0.1 + lightGap/maxLightGap*0.4;
-				sunColor.set(2*lightCol,lightCol,lightCol);
+				light.setColor(2*lightCol,lightCol,lightCol);
 			}
-			//sky.setSpecular(1,1,1);
-		} else if (sunPosition.z < twilightLimit) {
-			lightGap = twilightLimit - sunPosition.z;
-			if (sunPosition.y >= 0) {
+			sky.setSpecular(1,1,1);
+		} else if (light.lightPos.z < twilightLimit) {
+			lightGap = twilightLimit - light.lightPos.z;
+			if (light.lightPos.y >= 0) {
 				lightCol = 1 - lightGap/maxLightGap*0.5;
-				sunColor.set(1,lightCol,lightCol);
+				light.setColor(1,lightCol,lightCol);
 			} else {
 				lightCol = 0.1 + lightGap/maxLightGap*0.4;
-				sunColor.set(2*lightCol,lightCol,lightCol);
+				light.setColor(2*lightCol,lightCol,lightCol);
 			}
-			//sky.setSpecular(1,1,1);
+			sky.setSpecular(1,1,1);
 		} else {
-			if (sunPosition.y >= 0) {
-				sunColor.set(1,1,1);
-				//sky.setSpecular(1,1,1);
+			if (light.lightPos.y >= 0) {
+				light.setColor(1,1,1);
+				sky.setSpecular(1,1,1);
 			} else {
-				sunColor.set(0.1,0.1,0.1);
-				//sky.setSpecular(0,0,0);
+				light.setColor(0.1,0.1,0.1);
+				sky.setSpecular(0,0,0);
 			}
 		}
 	
