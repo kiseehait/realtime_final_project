@@ -124,7 +124,7 @@ Plane.mesh.rotation.x = Math.PI/2;
 Plane.mesh.material.needsUpdate = true;
 
 // Cloud Movement
-var CloudTiming = 0, CloudSelect = true, CloudMov = 0, CloudMovDist = 3;
+var CloudTiming = 0, CloudSelect = true, CloudMov = 0, CloudMovDist = 1.2, Mov = 0;
 function updateCloud() {
 	// Timing to swap from Cloud1 <---> Cloud2
 	if(CloudTiming >= 1) {
@@ -139,11 +139,11 @@ function updateCloud() {
 		CloudTiming += 0.01;
 	else
 		CloudTiming -= 0.01;
-	CloudMov += 0.005;
+	CloudMov += 0.08;
 	
 	// Some math to offset to cloud (It's problem here when I try to offset texture with floating number but it'snt work.)
-	var Mov = 0;
-	if(CloudMov-Math.floor(CloudMov) == 0) {
+	if(CloudMov-Math.floor(CloudMov) <= 0.001) {
+		CloudMov = Math.floor(CloudMov);
 		Mov = CloudMov;
 		Plane.mesh.position.z = 0;
 	}
@@ -170,5 +170,5 @@ function updateCloud() {
 // First update (It's make sure that the cloud be blend first!!)
 updateCloud();
 // Set it to Interval Service
-var cloudInterval = setInterval(updateCloud,200);
+var cloudInterval = setInterval(updateCloud,300);
 scene.add(Plane.mesh);
