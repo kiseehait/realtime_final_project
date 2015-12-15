@@ -1,11 +1,4 @@
 /*
-var _VERTEX_SHADER = document.getElementById( 'vertexShader' ).textContent;
-var _FRAGMENT_SHADER = document.getElementById( 'fragmentShader' ).textContent;
-var _TEXTURE_FRAGMENT_SHADER = document.getElementById( 'textureFragmentShader' ).textContent;
-var _PURE_TEXTURE_FRAGMENT_SHADER = document.getElementById( 'pureTextureFragmentShader' ).textContent;
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 10000 );
-
 var light = new Light();
 light.setColor(1.0,1.0,1.0);
 
@@ -215,8 +208,8 @@ render();
 
 			var sphereMesh;
 
-			var sunPosition = new THREE.Vector3( 0, 1000, -1000 );
-			var sunColor = new THREE.Vector3( 1.0, 1.0, 1.0 );
+			var sunPosition;
+			var sunColor;
 			var screenSpacePosition = new THREE.Vector3();
 
 			var mouseX = 0, mouseY = 0;
@@ -234,6 +227,7 @@ render();
 			var _VERTEX_SHADER = document.getElementById( 'vertexShader' ).textContent;
 			var _FRAGMENT_SHADER = document.getElementById( 'fragmentShader' ).textContent;
 			var _TEXTURE_FRAGMENT_SHADER = document.getElementById( 'textureFragmentShader' ).textContent;
+			var _PURE_TEXTURE_FRAGMENT_SHADER = document.getElementById( 'pureTextureFragmentShader' ).textContent;
 
 			init();
 			animate();
@@ -253,18 +247,23 @@ render();
 				
 				//
 				
+				sunPosition = new THREE.Vector3( 0, 1000, -1000 );
+				sunColor = new THREE.Vector3( 1.0, 1.0, 1.0 )
+				
+				//
+				
 				//scene.add( new THREE.AmbientLight( 0x666666 ) );
 				
 				//
 				
 				light = new THREE.SpotLight( 0xffffff, 1, 0, Math.PI / 2, 1 );
-				light.position.set( 0, 100, -100 );
+				light.position.set( sunPosition.x, sunPosition.y, sunPosition.z );
 				light.position.multiplyScalar( 1.5 );
 				light.target.position.set( 0, 0, 0 );
 
 				light.castShadow = true;
 
-				light.shadowCameraNear = 1200;
+				/*light.shadowCameraNear = 1200;
 				light.shadowCameraFar = 2500;
 				light.shadowCameraFov = 50;
 
@@ -273,11 +272,12 @@ render();
 				light.shadowBias = 0.0001;
 
 				light.shadowMapWidth = 1024;
-				light.shadowMapHeight = 1024;
+				light.shadowMapHeight = 1024;*/
 
 				scene.add( light );
 				
 				var light1 = new Light();
+				light1.setPosition( sunPosition.x, sunPosition.y, sunPosition.z );
 				light1.setColor(1.0,1.0,1.0);
 				
 				//
@@ -462,13 +462,13 @@ render();
 
 				var time = Date.now() / 4000;
 
-				/*sphereMesh.position.x = orbitRadius * Math.cos( time );
-				sphereMesh.position.z = orbitRadius * Math.sin( time ) - 100;*/
+				sphereMesh.position.x = orbitRadius * Math.cos( time );
+				sphereMesh.position.z = orbitRadius * Math.sin( time ) - 100;
 				
-				requestAnimationFrame( render );
+				//requestAnimationFrame( render );
 				updateCamera();
 
-				//sunAngle += sunSpeed*sunDAngle;
+				sunAngle += sunSpeed*sunDAngle;
 				if (sunAngle > 2*Math.PI) sunAngle = 0;
 				else if (sunAngle < 0) sunAngle = 2*Math.PI;
 
