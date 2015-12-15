@@ -17,7 +17,7 @@ var meshObject = [];
 
 // Set Shadow Map
 renderer.shadowMap.enabled	= true;
-renderer.shadowMap.type 		= THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 var shadowRenderFunction= [];
 
