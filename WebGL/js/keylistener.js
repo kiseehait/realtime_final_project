@@ -129,6 +129,8 @@ function updateCamera() {
 	camera.position.z = position.z;
 
 	sunPosition.set(0, 500*Math.sin(sunAngle), 500*Math.cos(sunAngle));
+	light.position.set(0, 500*Math.sin(sunAngle), 500*Math.cos(sunAngle));
+	light1.setPosition(0, 500*Math.sin(sunAngle), 500*Math.cos(sunAngle));
 	
 		if (sunPosition.z > dawnLimit) {
 			lightGap = sunPosition.z - dawnLimit;

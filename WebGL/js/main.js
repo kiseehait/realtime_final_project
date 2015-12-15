@@ -47,6 +47,8 @@ function init() {
 
 	scene = new THREE.Scene();
 	
+	scene.add( new THREE.AmbientLight( 0x666666 ) );
+	
 	sunPosition = new THREE.Vector3( 0, 1000, -1000 );
 	sunColor = new THREE.Vector3( 1.0, 1.0, 1.0 )
 
